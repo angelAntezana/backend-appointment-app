@@ -17,7 +17,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "echo 'export $(cat appointment-app/.env | xargs)' >> ~/.bashrc",
+	"postCreateCommand": "echo 'export $(cat appointment-app/vars/.env | xargs)' >> ~/.bashrc",
 
 	// Configure tool-specific properties.
 	"customizations": {
