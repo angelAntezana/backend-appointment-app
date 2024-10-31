@@ -1,0 +1,5 @@
+- VARIABLES DE ENTORNO
+    Si las variables de entorno no son importadas
+    correctamente ejecutar el siguiente comando dentro de la
+    carpeta del proyecto (demo):
+        export $(cat .env | xargs)
