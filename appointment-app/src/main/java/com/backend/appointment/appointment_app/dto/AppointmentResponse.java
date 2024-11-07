@@ -1,4 +1,4 @@
-package com.backend.appointment.appointment_app.Model;
+package com.backend.appointment.appointment_app.dto;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class AppointmentResponse {
     private Long appointmentId;
-    private Long customeId;
+    private Long customerId;
     private Long employeeId;
     private Date initDate;
     private Integer duration;

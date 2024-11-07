@@ -1,4 +1,4 @@
-package com.backend.appointment.appointment_app.Model;
+package com.backend.appointment.appointment_app.dto;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class AppointmentRequest {
-    private Long customeId;
+    private Long customerId;
     private Long employeeId;
     private Date initDate;
     private Integer duration;

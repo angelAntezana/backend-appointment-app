@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 import com.backend.appointment.appointment_app.services.AppointmentService;
 
-public class CitaServiceImpl implements AppointmentService{
+public class AppointmentServiceImpl implements AppointmentService{
 
     @Override
-    public void crearCita(LocalDateTime inicio) throws Exception {
+    public void addAppointment(LocalDateTime initDate) throws Exception {
         // TODO
-        System.out.println(inicio);
+        System.out.println(initDate);
         throw new UnsupportedOperationException("Unimplemented method 'crearCita'");
     }
 
