@@ -23,4 +23,6 @@ public class EmployeeResponse {
     private String email;
 
     private String phoneNumber;
+
+    private String dni;
 }
