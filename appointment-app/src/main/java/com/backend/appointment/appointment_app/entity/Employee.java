@@ -1,26 +1,23 @@
 package com.backend.appointment.appointment_app.entity;
 
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Builder
-@Setter
-@Getter
+@Entity
+@Table(name = "employee")
+@DiscriminatorValue("EMPLOYEE")
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "employee")
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
-    private String name;
-
+@Data
+@EqualsAndHashCode(callSuper = true)
+@PrimaryKeyJoinColumn(name = "employee_id")
+public class Employee extends Person{
+    private String dni;
 }

@@ -1,29 +1,27 @@
 package com.backend.appointment.appointment_app.entity;
 
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Builder
-@Setter
-@Getter
+
+@Entity
+@Table(name = "customer")
+@DiscriminatorValue("CUSTOMER")
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "customer")
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+@Data
+@EqualsAndHashCode(callSuper = true)
+@PrimaryKeyJoinColumn(name = "customer_id")
+public class Customer extends Person{
+    private boolean sendNotificationEmail;
 
-    private String name;
-
-    private String phoneNumber;
+    private boolean sendNotificationPhoneNumber;
 
 }

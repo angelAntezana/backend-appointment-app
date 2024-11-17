@@ -10,7 +10,7 @@ import com.backend.appointment.appointment_app.dto.AppointmentRequest;
 
 
 @RestController
-@RequestMapping("/appointment")
+@RequestMapping("/api/v1/appointment")
 public class AppointmentController {
     @PostMapping(value = {"/add"})
     public ResponseEntity<AppointmentRequest> addAppointment(@RequestBody AppointmentRequest appointmentRequest) {

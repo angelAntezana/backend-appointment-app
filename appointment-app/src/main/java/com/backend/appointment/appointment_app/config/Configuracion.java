@@ -12,7 +12,7 @@ public class Configuracion {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/imagen/**")
+				registry.addMapping("/api/v1/employee/**")
 				.allowedOrigins("http://localhost:5173", "http://localhost:3000")
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
 				registry.addMapping("/appointment/**")

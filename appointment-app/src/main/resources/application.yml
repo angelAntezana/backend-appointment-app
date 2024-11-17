@@ -3,3 +3,8 @@ spring:
     active: local
   application:
     name: demo
+
+security:
+  jwt:
+    secret-key: 3ccf891622d4f3b3f47146f6d647d114e64ec6e1e703c7f85e04c8a56434f3a9075a0d1111ff25c24a49ca7c09538f2b387eb048df338e0a5ad8ac562f2bd24f
+    expiration-in-miliseconds: 3600
