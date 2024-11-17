@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "03746ae0-5005-4f55-a694-3753919d505d",
+		"name": "Appointment_App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30016634"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Jane\",\r\n  \"secondName\": \"Doe\",\r\n  \"firstLastName\": \"Brown\",\r\n  \"secondLastName\": \"Green\",\r\n  \"email\": \"janedoe@example.com\",\r\n  \"phoneNumber\": \"987654321\",\r\n  \"dni\": \"12345678X\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/employee/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"employee",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
