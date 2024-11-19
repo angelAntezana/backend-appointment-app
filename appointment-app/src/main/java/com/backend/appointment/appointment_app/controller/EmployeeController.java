@@ -23,12 +23,10 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-       @PostMapping("/add")
-    public ResponseEntity<?> add(@Valid @RequestBody EmployeeRequest employeeRequest) throws CustomException{
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@Valid @RequestBody EmployeeRequest employeeRequest) throws CustomException{
 
-            System.out.println(employeeRequest);
-            return ResponseEntity.ok(employeeService.saveEmployee(employeeRequest));
-
+        return ResponseEntity.ok(employeeService.createEmployee(employeeRequest));
     }
     
 }

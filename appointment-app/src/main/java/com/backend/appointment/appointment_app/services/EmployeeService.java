@@ -5,5 +5,5 @@ import com.backend.appointment.appointment_app.dto.EmployeeResponse;
 import com.backend.appointment.appointment_app.exceptions.CustomException;
 
 public interface EmployeeService {
-    EmployeeResponse saveEmployee(EmployeeRequest employeeRequest) throws CustomException;
+    EmployeeResponse createEmployee(EmployeeRequest employeeRequest) throws CustomException;
 }

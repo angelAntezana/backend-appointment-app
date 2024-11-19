@@ -20,12 +20,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public EmployeeResponse saveEmployee(EmployeeRequest employeeRequest) throws CustomException{
+    public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) throws CustomException{
         if (employeeRepository.findByEmail(employeeRequest.getEmail()).isPresent()) {
-            throw new CustomException("EMAIL-0000", "This email "+ employeeRequest.getEmail() +" already exist", 406);
+            throw new CustomException("EMPLOYEE-0000", "This email "+ employeeRequest.getEmail() +" already exist", 406);
         }
         if (employeeRepository.findByDni(employeeRequest.getDni()).isPresent()) {
-            throw new CustomException("EMAIL-0001", "This dni " + employeeRequest.getDni() +" already exist", 406);
+            throw new CustomException("EMPLOYEE-0001", "This dni " + employeeRequest.getDni() +" already exist", 406);
         }
         Employee saveEmployee = EmployeeMapper.toEntity(employeeRequest);
         Employee savedEmployee = employeeRepository.save(saveEmployee);

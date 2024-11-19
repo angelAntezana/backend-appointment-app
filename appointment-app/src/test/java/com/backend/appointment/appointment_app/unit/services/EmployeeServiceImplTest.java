@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.backend.appointment.appointment_app.dto.EmployeeRequest;
 import com.backend.appointment.appointment_app.dto.EmployeeResponse;
@@ -19,6 +20,7 @@ import com.backend.appointment.appointment_app.exceptions.CustomException;
 import com.backend.appointment.appointment_app.repository.EmployeeRepository;
 import com.backend.appointment.appointment_app.services.impl.EmployeeServiceImpl;
 
+@ActiveProfiles("test")
 class EmployeeServiceImplTest {
 
     @Mock
@@ -56,7 +58,7 @@ class EmployeeServiceImplTest {
         when(employeeRepository.save(any(Employee.class))).thenReturn(savedEmployee);
 
         // Act
-        EmployeeResponse response = employeeService.saveEmployee(request);
+        EmployeeResponse response = employeeService.createEmployee(request);
 
         // Assert
         assertNotNull(response);
@@ -76,10 +78,10 @@ class EmployeeServiceImplTest {
 
         // Act & Assert
         CustomException exception = assertThrows(CustomException.class, () -> {
-            employeeService.saveEmployee(request);
+            employeeService.createEmployee(request);
         });
 
-        assertEquals("EMAIL-0000", exception.getCode());
+        assertEquals("EMPLOYEE-0000", exception.getCode());
         verify(employeeRepository, never()).save(any(Employee.class));
     }
 
@@ -95,10 +97,10 @@ class EmployeeServiceImplTest {
 
         // Act & Assert
         CustomException exception = assertThrows(CustomException.class, () -> {
-            employeeService.saveEmployee(request);
+            employeeService.createEmployee(request);
         });
 
-        assertEquals("EMAIL-0001", exception.getCode());
+        assertEquals("EMPLOYEE-0001", exception.getCode());
         verify(employeeRepository, never()).save(any(Employee.class));
     }
 }
