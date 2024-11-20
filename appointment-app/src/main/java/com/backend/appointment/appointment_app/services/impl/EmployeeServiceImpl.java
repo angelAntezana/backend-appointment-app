@@ -1,9 +1,10 @@
 package com.backend.appointment.appointment_app.services.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import com.backend.appointment.appointment_app.dto.EmployeeRequest;
-import com.backend.appointment.appointment_app.dto.EmployeeResponse;
+import com.backend.appointment.appointment_app.dto.EmployeeDto;
 import com.backend.appointment.appointment_app.entity.Employee;
 import com.backend.appointment.appointment_app.exceptions.CustomException;
 import com.backend.appointment.appointment_app.mapper.EmployeeMapper;
@@ -20,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) throws CustomException{
+    public EmployeeDto create(EmployeeDto employeeRequest) throws CustomException{
         if (employeeRepository.findByEmail(employeeRequest.getEmail()).isPresent()) {
             throw new CustomException("EMPLOYEE-0000", "This email "+ employeeRequest.getEmail() +" already exist", 406);
         }
@@ -31,5 +32,31 @@ public class EmployeeServiceImpl implements EmployeeService{
         Employee savedEmployee = employeeRepository.save(saveEmployee);
         return EmployeeMapper.toDto(savedEmployee);
     }
+
+    @Override
+    public List<EmployeeDto> getAll() throws CustomException {
+        return EmployeeMapper.toDtoList(employeeRepository.findAll());
+    }
+
+    @Override
+    public boolean delete(Long personId) throws CustomException {
+        if (!employeeRepository.findById(personId).isPresent()) {
+            throw new CustomException("EMPLOYEE-0002", "This employee with id" + personId + "does not exist", 400);
+        } 
+        employeeRepository.delete(employeeRepository.findById(personId).get());
+        return true;
+    }
+
+    @Override
+    public EmployeeDto update(EmployeeDto employeeDto) throws CustomException {
+        if (!employeeRepository.findById(employeeDto.getPersonId()).isPresent()) {
+            throw new CustomException("EMPLOYEE-0002", "This employee with id" + employeeDto + " does not exist", 400);
+        }
+        Employee updatedEmployee = employeeRepository.findById(employeeDto.getPersonId()).get();
+        updatedEmployee.setFirstName(employeeDto.getFirstName());
+        return EmployeeMapper.toDto(employeeRepository.save(updatedEmployee));
+    }
+
+    
     
 }

@@ -1,9 +1,17 @@
 package com.backend.appointment.appointment_app.services;
 
-import com.backend.appointment.appointment_app.dto.EmployeeRequest;
-import com.backend.appointment.appointment_app.dto.EmployeeResponse;
+import java.util.List;
+
+import com.backend.appointment.appointment_app.dto.EmployeeDto;
 import com.backend.appointment.appointment_app.exceptions.CustomException;
 
 public interface EmployeeService {
-    EmployeeResponse createEmployee(EmployeeRequest employeeRequest) throws CustomException;
+
+    List<EmployeeDto> getAll() throws CustomException;
+
+    EmployeeDto create(EmployeeDto employeeRequest) throws CustomException;
+
+    EmployeeDto update(EmployeeDto employeeDto) throws CustomException;
+
+    boolean delete(Long personId) throws CustomException;
 }

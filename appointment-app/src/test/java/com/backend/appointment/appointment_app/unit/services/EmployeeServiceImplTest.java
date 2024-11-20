@@ -13,8 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.backend.appointment.appointment_app.dto.EmployeeRequest;
-import com.backend.appointment.appointment_app.dto.EmployeeResponse;
+import com.backend.appointment.appointment_app.dto.EmployeeDto;
 import com.backend.appointment.appointment_app.entity.Employee;
 import com.backend.appointment.appointment_app.exceptions.CustomException;
 import com.backend.appointment.appointment_app.repository.EmployeeRepository;
@@ -37,7 +36,7 @@ class EmployeeServiceImplTest {
     @Test
     void saveEmployee_shouldSaveEmployee_whenValidRequest() throws CustomException {
         // Arrange
-        EmployeeRequest request = new EmployeeRequest();
+        EmployeeDto request = new EmployeeDto();
         request.setEmail("test@example.com");
         request.setDni("12345678");
         request.setFirstName("Test employee");
@@ -58,7 +57,7 @@ class EmployeeServiceImplTest {
         when(employeeRepository.save(any(Employee.class))).thenReturn(savedEmployee);
 
         // Act
-        EmployeeResponse response = employeeService.createEmployee(request);
+        EmployeeDto response = employeeService.create(request);
 
         // Assert
         assertNotNull(response);
@@ -70,7 +69,7 @@ class EmployeeServiceImplTest {
     @Test
     void saveEmployee_shouldThrowException_whenEmailAlreadyExists() {
         // Arrange
-        EmployeeRequest request = new EmployeeRequest();
+        EmployeeDto request = new EmployeeDto();
         request.setEmail("test@example.com");
         request.setDni("12345678");
 
@@ -78,7 +77,7 @@ class EmployeeServiceImplTest {
 
         // Act & Assert
         CustomException exception = assertThrows(CustomException.class, () -> {
-            employeeService.createEmployee(request);
+            employeeService.create(request);
         });
 
         assertEquals("EMPLOYEE-0000", exception.getCode());
@@ -88,7 +87,7 @@ class EmployeeServiceImplTest {
     @Test
     void saveEmployee_shouldThrowException_whenDniAlreadyExists() {
         // Arrange
-        EmployeeRequest request = new EmployeeRequest();
+        EmployeeDto request = new EmployeeDto();
         request.setEmail("test@example.com");
         request.setDni("12345678");
 
@@ -97,7 +96,7 @@ class EmployeeServiceImplTest {
 
         // Act & Assert
         CustomException exception = assertThrows(CustomException.class, () -> {
-            employeeService.createEmployee(request);
+            employeeService.create(request);
         });
 
         assertEquals("EMPLOYEE-0001", exception.getCode());
