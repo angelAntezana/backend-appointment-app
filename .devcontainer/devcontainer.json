@@ -2,8 +2,11 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/java
 {
 	"name": "Container Backend appointment-app",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "backend-appointment-app",
+	"workspaceFolder": "/workspaces",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
+	// "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
 
 	"features": {
 		"ghcr.io/devcontainers/features/java:1": {
@@ -12,12 +15,13 @@
 			"installGradle": "false"
 		}
 	},
+	"forwardPorts": [3306, 8080],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "echo 'export $(cat appointment-app/vars/.env | xargs)' >> ~/.bashrc",
+	"postCreateCommand": "echo 'export $(cat /workspaces/appointment-app/vars/.env | xargs)' >> ~/.bashrc",
 
 	// Configure tool-specific properties.
 	"customizations": {

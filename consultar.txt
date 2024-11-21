@@ -3,3 +3,16 @@
     correctamente ejecutar el siguiente comando dentro de la
     carpeta del proyecto (demo):
         export $(cat .env | xargs)
+- DESARROLLO LOCAL
+    Para entrar en la bbdd mysql del contenedor seguir los siguientes pasos:
+    -Abre una terminal y ejecuta el siguiente comando:
+    docker exec -it db-appointment-app bash
+
+    -Una vez dentro ejecuta el siguiente comando( se te pedirá la contraseña usuarioprueba):
+    mysql -u usuarioprueba -p
+
+    - Usa la bbdd creada:
+    USE u243013116_prueba;
+
+    -Para salir tanto de la consola de MYSQL y del contenedor ejecuta el siguiente comando:
+    exit

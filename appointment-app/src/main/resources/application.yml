@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: pro
+    active: local
   application:
     name: demo
 
