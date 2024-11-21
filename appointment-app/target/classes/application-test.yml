@@ -1,0 +1,18 @@
+server:
+  port: 8080
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3306/u243013116_prueba?
+    username: usuarioprueba
+    password: usuarioprueba
+
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

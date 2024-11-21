@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: pro
+  application:
+    name: demo
+
+security:
+  jwt:
+    secret-key: ${SECRET_KEY}
+    expiration-in-miliseconds: 3600
