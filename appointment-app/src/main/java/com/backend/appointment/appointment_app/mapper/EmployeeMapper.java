@@ -21,6 +21,12 @@ public class EmployeeMapper {
         .phoneNumber(employeeRequest.getPhoneNumber())
         .dni(employeeRequest.getDni())
         .build();
+        // WHEN A EMPLOYEE IS CREATED
+        if (employeeRequest.getPersonId() == null) {
+            return employee;
+        }
+        // UPDATE EMPLOYEE
+        employee.setPersonId(employeeRequest.getPersonId());
         return employee;
     }
 

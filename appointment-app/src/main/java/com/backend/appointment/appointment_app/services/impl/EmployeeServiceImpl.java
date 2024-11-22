@@ -21,6 +21,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public List<EmployeeDto> getAll() throws CustomException {
+        return EmployeeMapper.toDtoList(employeeRepository.findAll());
+    }
+
+    @Override
     public EmployeeDto create(EmployeeDto employeeRequest) throws CustomException{
         if (employeeRepository.findByEmail(employeeRequest.getEmail()).isPresent()) {
             throw new CustomException("EMPLOYEE-0000", "This email "+ employeeRequest.getEmail() +" already exist", 406);
@@ -34,8 +39,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public List<EmployeeDto> getAll() throws CustomException {
-        return EmployeeMapper.toDtoList(employeeRepository.findAll());
+    public EmployeeDto update(EmployeeDto employeeDto) throws CustomException {
+        if (!employeeRepository.findById(employeeDto.getPersonId()).isPresent()) {
+            throw new CustomException("EMPLOYEE-0002", "This employee with id " + employeeDto + " does not exist", 400);
+        }
+        Employee updatedEmployee = EmployeeMapper.toEntity(employeeDto);
+        return EmployeeMapper.toDto(employeeRepository.save(updatedEmployee));
     }
 
     @Override
@@ -46,17 +55,5 @@ public class EmployeeServiceImpl implements EmployeeService{
         employeeRepository.delete(employeeRepository.findById(personId).get());
         return true;
     }
-
-    @Override
-    public EmployeeDto update(EmployeeDto employeeDto) throws CustomException {
-        if (!employeeRepository.findById(employeeDto.getPersonId()).isPresent()) {
-            throw new CustomException("EMPLOYEE-0002", "This employee with id" + employeeDto + " does not exist", 400);
-        }
-        Employee updatedEmployee = employeeRepository.findById(employeeDto.getPersonId()).get();
-        updatedEmployee.setFirstName(employeeDto.getFirstName());
-        return EmployeeMapper.toDto(employeeRepository.save(updatedEmployee));
-    }
-
-    
     
 }

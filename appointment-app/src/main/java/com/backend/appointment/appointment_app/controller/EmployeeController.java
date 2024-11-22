@@ -31,7 +31,6 @@ public class EmployeeController {
     public ResponseEntity<?> getAll() throws CustomException{
         return ResponseEntity.ok(employeeService.getAll());
     }
-    
 
     @PostMapping(value = {"/create"})
     public ResponseEntity<?> create(@Valid @RequestBody EmployeeDto employeeRequest) throws CustomException{
