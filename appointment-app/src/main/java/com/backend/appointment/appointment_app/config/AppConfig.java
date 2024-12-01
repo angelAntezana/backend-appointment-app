@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.backend.appointment.appointment_app.entity.User;
+import com.backend.appointment.appointment_app.repository.RoleRepository;
 import com.backend.appointment.appointment_app.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,14 +28,20 @@ public class AppConfig {
     
     private final UserRepository userRepository;
 
-      @Bean
+    private final RoleRepository roleRepository;
+
+    @Bean
     public UserDetailsService userDetailsService() {
         return username -> {
             final User user = userRepository.findByEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                    String []roles = user.getRoles().stream()
+                    .map(rol -> roleRepository.findByName(rol.getName()).get().getName())
+                    .toArray(String[]::new);
             return org.springframework.security.core.userdetails.User
                     .builder()
                     .username(user.getEmail())
+                    .roles(roles)
                     .password(user.getPassword())
                     .build();
         };

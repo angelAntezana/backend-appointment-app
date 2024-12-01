@@ -40,3 +40,20 @@ ADD CONSTRAINT unique_cita_empleado_fecha UNIQUE (empleado_id, inicio);
 --     en la columna inicio de la tabla citas, ya que esta columna
 --     será frecuentemente consultada.
 -- CREATE INDEX idx_inicio ON citas(inicio);
+
+
+INSERT INTO role (role_id, description, name) VALUES (1, 'Manager with all permissions', 'ADMIN');
+INSERT INTO role (role_id, description, name) VALUES (2, 'Manager with some permissions', 'EMPLOYEE');
+INSERT INTO role (role_id, description, name) VALUES (3, 'User with simple permissions', 'USER');
+
+-- EL TOKEN ES MUY LARGO
+ALTER TABLE token MODIFY COLUMN token VARCHAR(512);
+
+-- LO QUE DEVUELVE TOKEN
+-- {
+--   "roles": "USER,ADMIN,EMPLOYEE",
+--   "username": "angelElVergas7",
+--   "sub": "7pruebaAngel@gmail.com",
+--   "iat": 1733083410,
+--   "exp": 1733688210
+-- }

@@ -1,16 +1,21 @@
 package com.backend.appointment.appointment_app.services.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.backend.appointment.appointment_app.dto.RoleDto;
 import com.backend.appointment.appointment_app.dto.TokenResponse;
 import com.backend.appointment.appointment_app.dto.UserDto;
+import com.backend.appointment.appointment_app.entity.Role;
 import com.backend.appointment.appointment_app.entity.Token;
 import com.backend.appointment.appointment_app.entity.User;
+import com.backend.appointment.appointment_app.repository.RoleRepository;
 import com.backend.appointment.appointment_app.repository.TokenRepository;
 import com.backend.appointment.appointment_app.repository.UserRepository;
 import com.backend.appointment.appointment_app.services.AuthService;
@@ -24,15 +29,21 @@ public class AuthServiceImpl implements AuthService{
     
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     @Override
     public TokenResponse register(UserDto registerRequest) {
+        Set<Role> roles = new HashSet<>();
+        for(RoleDto rolDto: registerRequest.getRoles()) {
+            roles.add(roleRepository.findByName(rolDto.getName()).get());
+        }
         final User user = User.builder()
                 .username(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .roles(roles)
                 .build();
 
         final User savedUser = userRepository.save(user);

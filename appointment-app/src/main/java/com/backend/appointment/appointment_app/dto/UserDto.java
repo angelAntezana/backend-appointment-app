@@ -1,5 +1,7 @@
 package com.backend.appointment.appointment_app.dto;
 
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -21,4 +23,7 @@ public class UserDto {
 
     @JsonProperty("email")
     private String email;
+
+    @JsonProperty("roles")
+    private Set<RoleDto> roles;
 }

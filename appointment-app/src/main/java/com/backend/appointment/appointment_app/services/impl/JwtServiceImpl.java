@@ -2,6 +2,7 @@ package com.backend.appointment.appointment_app.services.impl;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.crypto.SecretKey;
 
@@ -49,7 +50,8 @@ public class JwtServiceImpl  implements JwtService{
     public String buildToken(User user, long expiration) {
         return Jwts
                 .builder()
-                .claims(Map.of("username", user.getUsername()))
+                .claims(Map.of("username", user.getUsername(),
+                "roles", user.getRoles().stream().map(rol -> rol.getName()).collect(Collectors.joining(","))))
                 .subject(user.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))

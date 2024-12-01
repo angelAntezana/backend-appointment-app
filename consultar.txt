@@ -35,3 +35,13 @@
     accessToken que devuelve cuando creas el usuario. A la derecha donde pone 
     "Authorize", haz click y en el input "Value" pega el accessToken. Por último
     haz click en Authorize
+
+
+- ESTRUCTURA DEL TOKEN
+    {
+    "roles": "USER,ADMIN,EMPLOYEE",
+    "username": "angelElVergas7",
+    "sub": "7pruebaAngel@gmail.com",
+    "iat": 1733083410,
+    "exp": 1733688210
+    }

@@ -25,7 +25,7 @@ public final class Token {
     @GeneratedValue
     private Long tokenId;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 512)
     private String token;
 
     @Enumerated(EnumType.STRING)
