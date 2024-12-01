@@ -4,7 +4,12 @@ spring:
   application:
     name: demo
 
-security:
-  jwt:
-    secret-key: ${SECRET_KEY}
-    expiration-in-miliseconds: 3600
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET_KEY}
+      expiration: ${ACCESS_TOKEN_EXPIRATION} #a day
+      refresh-token:
+        expiration: ${REFRESH_TOKEN_EXPIRATION} # 7 days
+api-version:
+  prefix: /api/v1

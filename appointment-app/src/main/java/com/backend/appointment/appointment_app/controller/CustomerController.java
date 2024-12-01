@@ -16,7 +16,7 @@ import com.backend.appointment.appointment_app.services.CustomerService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("${api-version.prefix}/customer")
 public class CustomerController {
     
     private CustomerService customerService;

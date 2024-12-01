@@ -18,7 +18,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/v1/employee")
+@RequestMapping("${api-version.prefix}/employee")
 public class EmployeeController {
 
     private EmployeeService employeeService;
