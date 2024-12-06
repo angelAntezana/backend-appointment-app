@@ -23,4 +23,6 @@ public interface JwtService {
     public Date extractExpiration(String token);
 
     public SecretKey getSignInKey();
+
+    public String hashToken(String token) throws RuntimeException;
 }

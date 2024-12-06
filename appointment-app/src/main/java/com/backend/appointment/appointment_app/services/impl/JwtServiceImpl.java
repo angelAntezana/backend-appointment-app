@@ -1,5 +1,7 @@
 package com.backend.appointment.appointment_app.services.impl;
 
+import java.security.MessageDigest;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,7 +40,7 @@ public class JwtServiceImpl  implements JwtService{
 
     @Override
     public String generateToken(User user) {
-        return buildToken(user, refreshExpiration);
+        return buildToken(user, jwtExpiration);
     }
 
     @Override
@@ -84,6 +86,17 @@ public class JwtServiceImpl  implements JwtService{
     public SecretKey getSignInKey() {
         final byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Override
+    public String hashToken(String token) throws RuntimeException {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(token.getBytes("UTF-8"));
+            return Base64.getEncoder().encodeToString(hash); // Codifica el hash en Base64
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el hash del token", e);
+        }
     }
     
 }

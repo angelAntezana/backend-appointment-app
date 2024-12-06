@@ -71,9 +71,10 @@ public class AuthServiceImpl implements AuthService{
     }
     @Override
     public void saveUserToken(User user, String jwtToken) {
+        final String tokenHash = jwtService.hashToken(jwtToken);
         final Token token = Token.builder()
                 .user(user)
-                .token(jwtToken)
+                .token(tokenHash)
                 .tokenType(Token.TokenType.BEARER)
                 .isExpired(false)
                 .isRevoked(false)
