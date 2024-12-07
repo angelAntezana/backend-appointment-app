@@ -37,6 +37,42 @@
     haz click en Authorize
 
 
+
+- SONARQUBE
+    SonarQube is static analysis tool, which checks you code and signalises
+    if somethings is wrong with it.
+
+    Pasos:
+    - Abrir una ventana con la dirección http://localhost:9001/
+    - Log in con las siguiente credenciales
+        - Login: admin
+        - Password: admin
+    - Después de meter las credenciales se pedirá cambiar la Password.
+      Establecer password a usuarioprueba.
+    - Crear un proyecto:
+        - Dar click en Create a local project.
+        - En Project display name poner Backend Appointment App
+        - En Project key poner Backend-Appointment-App
+        - En main branch name poner main
+    - Después seleccionar Locally
+    - Generar Token:
+
+        - Para propósito de test pondremos No expiration.
+        - Le daremos a Generate.
+        - Se nos generará un token. Este token deberemos guardarlo en un sitio
+            porque se nos pedirá a la hora de ejecutar SonarQube. Guardar en un
+            archivo .env.
+    - Build system:
+        - Seleccionar Maven
+        - Copiar los comandos que nos da SonarQube:
+
+            mvn clean verify sonar:sonar \
+            -Dsonar.projectKey=Backend-Appoinment-App \
+            -Dsonar.host.url=http://sonarqube:9000 \
+            -Dsonar.login=$MY_SONARQUBE_TOKEN
+    - Por último esperar que todo haya salido bien y analizar los resultados.
+        
+
 - ESTRUCTURA DEL TOKEN
     {
     "roles": "USER,ADMIN,EMPLOYEE",
