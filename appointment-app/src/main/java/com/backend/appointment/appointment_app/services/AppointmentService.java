@@ -1,7 +1,8 @@
 package com.backend.appointment.appointment_app.services;
 
-import java.time.LocalDateTime;
+import com.backend.appointment.appointment_app.dto.AppointmentDto;
+import com.backend.appointment.appointment_app.exceptions.CustomException;
 
 public interface AppointmentService {
-    void addAppointment(LocalDateTime initDate) throws Exception;
+    public AppointmentDto create(AppointmentDto appointmentRequest) throws CustomException;
 }

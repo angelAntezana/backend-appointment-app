@@ -1,11 +1,13 @@
 package com.backend.appointment.appointment_app.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,8 +24,18 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appointmentId;
-    private Long customerId;
-    private Long employeeId;
-    private Date initDate;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "personId")
+    private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id", referencedColumnName = "personId")
+    private Employee employee;
+
+    private LocalDateTime initDate;
+
+    private LocalDateTime endDate;
+
     private Integer duration;
 }

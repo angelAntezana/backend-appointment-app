@@ -1,16 +1,75 @@
 package com.backend.appointment.appointment_app.services.impl;
 
-import java.time.LocalDateTime;
+import org.springframework.stereotype.Service;
 
+import com.backend.appointment.appointment_app.dto.AppointmentDto;
+import com.backend.appointment.appointment_app.entity.Appointment;
+import com.backend.appointment.appointment_app.entity.Customer;
+import com.backend.appointment.appointment_app.entity.Employee;
+import com.backend.appointment.appointment_app.exceptions.CustomException;
+import com.backend.appointment.appointment_app.exceptions.enums.CustomerMessageError;
+import com.backend.appointment.appointment_app.exceptions.enums.EmployeeMessageError;
+import com.backend.appointment.appointment_app.repository.AppointmentRepository;
+import com.backend.appointment.appointment_app.repository.CustomerRepository;
+import com.backend.appointment.appointment_app.repository.EmployeeRepository;
 import com.backend.appointment.appointment_app.services.AppointmentService;
 
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService{
 
+    private final EmployeeRepository employeeRepository;
+
+    private final CustomerRepository customerRepository;
+
+    private final AppointmentRepository appointmentRepository;
+
     @Override
-    public void addAppointment(LocalDateTime initDate) throws Exception {
-        // TODO
-        System.out.println(initDate);
-        throw new UnsupportedOperationException("Unimplemented method 'crearCita'");
+    public AppointmentDto create(AppointmentDto appointmentRequest) throws CustomException {
+         Employee employee = employeeRepository.findById(appointmentRequest.getEmployeeId())
+                .orElseThrow(() -> new CustomException(
+                    EmployeeMessageError.EMPLOYEE_NOT_FOUND.getCode(),
+                    EmployeeMessageError.EMPLOYEE_NOT_FOUND.getMessage(appointmentRequest.getEmployeeId()),
+                    EmployeeMessageError.EMPLOYEE_NOT_FOUND.getStatusCode()
+                ));
+
+        Customer customer = customerRepository.findById(appointmentRequest.getCustomerId())
+                .orElseThrow(() -> new CustomException(
+                    CustomerMessageError.CUSTOMER_NOT_FOUND.getCode(),
+                    CustomerMessageError.CUSTOMER_NOT_FOUND.getMessage(appointmentRequest.getCustomerId()),
+                    CustomerMessageError.CUSTOMER_NOT_FOUND.getStatusCode()
+                ));
+
+           // Validar conflictos de citas para el cliente
+           int customerConflicts = appointmentRepository.countCustomerAppointmentsInInterval(appointmentRequest.getCustomerId(), appointmentRequest.getInitDate(), appointmentRequest.getEndDate());
+           if (customerConflicts > 0) {
+            throw new CustomException("APPOINTMENT", "There is no availability in this time slot.", 403);
+    }
+   
+           // Validar conflictos de citas para el empleado
+           int employeeConflicts = appointmentRepository.countEmployeeAppointmentsInInterval(appointmentRequest.getEmployeeId(), appointmentRequest.getInitDate(), appointmentRequest.getEndDate());
+           if (employeeConflicts > 0) {
+            throw new CustomException("APPOINTMENT", "There is no availability in this time slot.", 403);
+    }
+        Appointment newAppointment = Appointment.builder()
+        .initDate(appointmentRequest.getInitDate())
+        .endDate(appointmentRequest.getEndDate())
+        .duration(appointmentRequest.getDuration())
+        .employee(employee)
+        .customer(customer)
+        .build();
+
+        Appointment savedAppointment = appointmentRepository.save(newAppointment);
+        return AppointmentDto.builder()
+        .appointmentId(savedAppointment.getAppointmentId())
+        .initDate(savedAppointment.getInitDate())
+        .endDate(savedAppointment.getEndDate())
+        .duration(savedAppointment.getDuration())
+        .employeeId(savedAppointment.getEmployee().getPersonId())
+        .customerId(savedAppointment.getCustomer().getPersonId())
+        .build();
     }
 
 
