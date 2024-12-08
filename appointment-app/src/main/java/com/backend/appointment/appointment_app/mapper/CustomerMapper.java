@@ -8,6 +8,10 @@ import com.backend.appointment.appointment_app.entity.Customer;
 
 public class CustomerMapper {
     
+    private CustomerMapper() {
+        throw new IllegalStateException("Mapper customer class");
+    }
+
     public static Customer toEntity(CustomerDto customerRequest) {
         if (customerRequest == null) {
             return null;
@@ -36,7 +40,7 @@ public class CustomerMapper {
         if (customer == null) {
             return null;
         }
-        CustomerDto customerResponse = CustomerDto.builder()
+        return CustomerDto.builder()
         .personId(customer.getPersonId())
         .firstName(customer.getFirstName())
         .secondName(customer.getSecondName())
@@ -47,7 +51,6 @@ public class CustomerMapper {
         .sendNotificationEmail(customer.isSendNotificationEmail())
         .sendNotificationPhoneNumber(customer.isSendNotificationPhoneNumber())
         .build();
-        return customerResponse;
     }
 
     public static List<CustomerDto> toDtoList(List<Customer> listCustomer) {

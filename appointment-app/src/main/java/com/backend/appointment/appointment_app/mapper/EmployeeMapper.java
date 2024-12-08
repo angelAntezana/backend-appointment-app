@@ -7,7 +7,10 @@ import com.backend.appointment.appointment_app.dto.EmployeeDto;
 import com.backend.appointment.appointment_app.entity.Employee;
 
 public class EmployeeMapper {
-    
+
+    private EmployeeMapper() {
+        throw new IllegalStateException("Mapper employee class");
+    }
     public static Employee toEntity(EmployeeDto employeeRequest) {
         if (employeeRequest == null) {
             return null;
@@ -34,7 +37,7 @@ public class EmployeeMapper {
         if (employee == null) {
             return null;
         }
-        EmployeeDto employeeResponse = EmployeeDto.builder()
+        return EmployeeDto.builder()
         .personId(employee.getPersonId())
         .firstName(employee.getFirstName())
         .secondName(employee.getSecondName())
@@ -44,7 +47,6 @@ public class EmployeeMapper {
         .phoneNumber(employee.getPhoneNumber())
         .dni(employee.getDni())
         .build();
-        return employeeResponse;
     }
 
     public static List<EmployeeDto> toDtoList(List<Employee> listEmployee) {

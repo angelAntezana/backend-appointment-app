@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @AllArgsConstructor
 public class CustomException extends Exception{
-    private String code;
-    private String message;
-    private int statusCode;
+    private final String code;
+    private final String message;
+    private final int statusCode;
 }

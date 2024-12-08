@@ -1,5 +1,6 @@
 package com.backend.appointment.appointment_app.services.impl;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.Date;
@@ -92,7 +93,7 @@ public class JwtServiceImpl  implements JwtService{
     public String hashToken(String token) throws RuntimeException {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(token.getBytes("UTF-8"));
+            byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(hash); // Codifica el hash en Base64
         } catch (Exception e) {
             throw new RuntimeException("Error al generar el hash del token", e);

@@ -1,6 +1,7 @@
 package com.backend.appointment.appointment_app.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -49,10 +50,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public boolean delete(Long personId) throws CustomException {
-        if (!employeeRepository.findById(personId).isPresent()) {
+        Optional<Employee> employee = employeeRepository.findById(personId);
+        if (!employee.isPresent()) {
             throw new CustomException("EMPLOYEE-0002", "This employee with id" + personId + "does not exist", 400);
         } 
-        employeeRepository.delete(employeeRepository.findById(personId).get());
+        employeeRepository.delete(employee.get());
         return true;
     }
     

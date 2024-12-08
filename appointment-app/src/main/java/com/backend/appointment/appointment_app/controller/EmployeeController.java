@@ -1,5 +1,7 @@
 package com.backend.appointment.appointment_app.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,23 +30,23 @@ public class EmployeeController {
     }
 
     @GetMapping(value = {""})
-    public ResponseEntity<?> getAll() throws CustomException{
+    public ResponseEntity<List<EmployeeDto>> getAll() throws CustomException{
         return ResponseEntity.ok(employeeService.getAll());
     }
 
     @PostMapping(value = {"/create"})
-    public ResponseEntity<?> create(@Valid @RequestBody EmployeeDto employeeRequest) throws CustomException{
+    public ResponseEntity<EmployeeDto> create(@Valid @RequestBody EmployeeDto employeeRequest) throws CustomException{
 
         return ResponseEntity.ok(employeeService.create(employeeRequest));
     }
 
     @PostMapping(value = {"/update"})
-    public ResponseEntity<?> update(@Valid @RequestBody EmployeeDto employeeRequest) throws CustomException {
+    public ResponseEntity<EmployeeDto> update(@Valid @RequestBody EmployeeDto employeeRequest) throws CustomException {
         return ResponseEntity.ok(employeeService.update(employeeRequest));
     }
 
     @DeleteMapping(value = {"/delete/{personId}"})
-    public ResponseEntity<?> delete(@PathVariable("personId") Long personId) throws CustomException{
+    public ResponseEntity<Boolean> delete(@PathVariable("personId") Long personId) throws CustomException{
         return ResponseEntity.ok(employeeService.delete(personId));
     }
     

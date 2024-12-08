@@ -3,7 +3,6 @@ package com.backend.appointment.appointment_app.exceptions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,20 +19,20 @@ public class ExceptionManager {
     
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<?> customExceptionHandler(CustomException e, WebRequest request) {
+    public ResponseEntity<GlobalError> customExceptionHandler(CustomException e, WebRequest request) {
         return setInformation(e, e.getCode(), request, e.getStatusCode());
     }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleValidationErrors(MethodArgumentNotValidException ex, WebRequest request) {
+    public ResponseEntity<GlobalError> handleValidationErrors(MethodArgumentNotValidException ex, WebRequest request) {
         return setInformationValidation(ex, "VALIDATION-JAKARTA", request, 400);
     }
 
 
-    private ResponseEntity<GlobalException> setInformationValidation(MethodArgumentNotValidException e, String code, WebRequest request, Integer status) {
+    private ResponseEntity<GlobalError> setInformationValidation(MethodArgumentNotValidException e, String code, WebRequest request, Integer status) {
         List<String> errors = e.getBindingResult().getFieldErrors()
-                .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+                .stream().map(FieldError::getDefaultMessage).toList();
         // Obtener HttpServletRequest desde WebRequest
         HttpServletRequest httpRequest = ((ServletWebRequest) request).getRequest();
         // Obtener el método del servicio desde el stack trace
@@ -45,7 +44,7 @@ public class ExceptionManager {
         details.put("sessionId", request.getSessionId());
         return ResponseEntity.status(status)
             .body(
-                GlobalException.builder()
+                GlobalError.builder()
                 .reason(String.join("\n", errors))
                 .code(code)
                 .status(status)
@@ -54,7 +53,7 @@ public class ExceptionManager {
             );
     }
 
-    private ResponseEntity<GlobalException> setInformation(Exception e, String code, WebRequest request, Integer status) {
+    private ResponseEntity<GlobalError> setInformation(Exception e, String code, WebRequest request, Integer status) {
             // Obtener HttpServletRequest desde WebRequest
             HttpServletRequest httpRequest = ((ServletWebRequest) request).getRequest();
             // Obtener el método del servicio desde el stack trace
@@ -66,7 +65,7 @@ public class ExceptionManager {
             details.put("sessionId", request.getSessionId());
     return ResponseEntity.status(status)
         .body(
-            GlobalException.builder()
+            GlobalError.builder()
             .reason(e.getMessage())
             .code(code)
             .status(status)

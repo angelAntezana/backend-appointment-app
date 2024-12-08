@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class GlobalException {
+public class GlobalError {
     private String reason;
     private Integer status;
     private String code;
