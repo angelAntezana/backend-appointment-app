@@ -7,11 +7,13 @@ import com.backend.appointment.appointment_app.exceptions.CustomException;
 
 public interface EmployeeService {
 
+    EmployeeDto get(Long personId) throws CustomException;
+
     List<EmployeeDto> getAll() throws CustomException;
 
     EmployeeDto create(EmployeeDto employeeRequest) throws CustomException;
 
-    EmployeeDto update(EmployeeDto employeeDto) throws CustomException;
+    EmployeeDto update(Long personId ,EmployeeDto employeeDto) throws CustomException;
 
     boolean delete(Long personId) throws CustomException;
 }

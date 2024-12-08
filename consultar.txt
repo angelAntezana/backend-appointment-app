@@ -43,7 +43,7 @@
     if somethings is wrong with it.
 
     Pasos:
-    - Abrir una ventana con la dirección http://localhost:9001/
+    - Abrir una ventana con la dirección http://localhost:9000/
     - Log in con las siguiente credenciales
         - Login: admin
         - Password: admin
