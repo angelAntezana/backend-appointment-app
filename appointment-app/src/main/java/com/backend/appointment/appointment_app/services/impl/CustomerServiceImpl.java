@@ -1,8 +1,9 @@
 package com.backend.appointment.appointment_app.services.impl;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.backend.appointment.appointment_app.dto.CustomerDto;
@@ -36,8 +37,14 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public List<CustomerDto> getAll() throws CustomException {
-        return CustomerMapper.toDtoList(customerRepository.findAll());
+    public Page<CustomerDto> getAll(Pageable pageable) throws CustomException {
+        // return CustomerMapper.toDtoList(customerRepository.findAll());
+         return customerRepository.findAll(pageable)
+         .map(customer -> {
+            return CustomerMapper.toDto(customer);
+         });
+        
+
     }
 
     @Override

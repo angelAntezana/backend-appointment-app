@@ -1,6 +1,7 @@
 package com.backend.appointment.appointment_app.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.backend.appointment.appointment_app.dto.CustomerDto;
 import com.backend.appointment.appointment_app.exceptions.CustomException;
@@ -9,7 +10,7 @@ public interface CustomerService {
 
     CustomerDto get(Long personId) throws CustomException;
     
-    List<CustomerDto> getAll() throws CustomException;
+    Page<CustomerDto> getAll(Pageable pageable) throws CustomException;
 
     CustomerDto create(CustomerDto customerRequest) throws CustomException;
 
