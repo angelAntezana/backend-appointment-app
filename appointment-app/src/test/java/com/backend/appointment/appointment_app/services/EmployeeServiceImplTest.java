@@ -1,4 +1,4 @@
-package com.backend.appointment.appointment_app.unit.services;
+package com.backend.appointment.appointment_app.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;

@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Page<CustomerDto> getSearchByTerm(String searchTerm, Pageable pageable) throws CustomException {
+    public Page<CustomerDto> getBySearchTerm(String searchTerm, Pageable pageable) {
         if (searchTerm == null || searchTerm.isEmpty()) {
             return customerRepository.findAll(pageable)
                 .map(CustomerMapper::toDto);

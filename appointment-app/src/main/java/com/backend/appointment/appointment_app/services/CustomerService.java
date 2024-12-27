@@ -10,7 +10,7 @@ public interface CustomerService {
 
     CustomerDto getById(Long personId) throws CustomException;
 
-    Page<CustomerDto>getSearchByTerm(String searchTerm, Pageable pageable) throws CustomException;
+    Page<CustomerDto>getBySearchTerm(String searchTerm, Pageable pageable);
     
     Page<CustomerDto> getAll(Pageable pageable) throws CustomException;
 

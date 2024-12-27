@@ -142,7 +142,7 @@ public class CustomerController {
             );
         
             Pageable pageable = PageRequest.of(page, size, sort);
-            Page<CustomerDto> customersDtos = customerService.getSearchByTerm(searchTerm, pageable);
+            Page<CustomerDto> customersDtos = customerService.getBySearchTerm(searchTerm, pageable);
     
             PageResponse<CustomerDto> response = PageResponse.of(customersDtos, sortBy, direction);
             return ResponseEntity.ok(response);

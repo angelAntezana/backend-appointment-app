@@ -6,9 +6,9 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://db-appointment-app:3306/u243013116_prueba?
-    username: usuarioprueba
-    password: usuarioprueba
+    url: ${DB_URL_TEST}
+    username: ${DB_USER_TEST}
+    password: ${DB_PASS_TEST}
 
   jpa:
     generate-ddl: true
