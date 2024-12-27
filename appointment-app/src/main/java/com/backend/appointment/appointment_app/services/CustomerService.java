@@ -8,7 +8,9 @@ import com.backend.appointment.appointment_app.exceptions.CustomException;
 
 public interface CustomerService {
 
-    CustomerDto get(Long personId) throws CustomException;
+    CustomerDto getById(Long personId) throws CustomException;
+
+    Page<CustomerDto>getSearchByTerm(String searchTerm, Pageable pageable) throws CustomException;
     
     Page<CustomerDto> getAll(Pageable pageable) throws CustomException;
 

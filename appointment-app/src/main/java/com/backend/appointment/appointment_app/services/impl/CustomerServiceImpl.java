@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public CustomerDto get(Long personId) throws CustomException {
+    public CustomerDto getById(Long personId) throws CustomException {
         Optional<Customer> customer = customerRepository.findById(personId);
         if (!customer.isPresent()) {
             throw new CustomException(
@@ -37,14 +37,20 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Page<CustomerDto> getAll(Pageable pageable) throws CustomException {
-        // return CustomerMapper.toDtoList(customerRepository.findAll());
-         return customerRepository.findAll(pageable)
-         .map(customer -> {
-            return CustomerMapper.toDto(customer);
-         });
-        
+    public Page<CustomerDto> getSearchByTerm(String searchTerm, Pageable pageable) throws CustomException {
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            return customerRepository.findAll(pageable)
+                .map(CustomerMapper::toDto);
+        }
 
+        return customerRepository.findBySearchTerm(searchTerm, pageable)
+            .map(CustomerMapper::toDto);
+    }
+
+    @Override
+    public Page<CustomerDto> getAll(Pageable pageable) throws CustomException {
+         return customerRepository.findAll(pageable)
+         .map(CustomerMapper::toDto);
     }
 
     @Override

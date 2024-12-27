@@ -41,8 +41,8 @@ public class CustomerController {
     }
 
     @GetMapping(value = {"{personId}"})
-    public ResponseEntity<CustomerDto> get(@PathVariable Long personId) throws CustomException {
-        return ResponseEntity.ok(customerService.get(personId));
+    public ResponseEntity<CustomerDto> getById(@PathVariable Long personId) throws CustomException {
+        return ResponseEntity.ok(customerService.getById(personId));
     }
 
      /**
@@ -89,7 +89,6 @@ public class CustomerController {
     
         // Crear el objeto Pageable con la paginación y el ordenamiento
         Pageable pageable = PageRequest.of(page, size, sort);
-        // return ResponseEntity.ok(customerService.getAll(pageable));
          // Obtener la página de datos
         Page<CustomerDto> customersDtos = customerService.getAll(pageable);
 
@@ -97,6 +96,59 @@ public class CustomerController {
         PageResponse<CustomerDto> response = PageResponse.of(customersDtos, sortBy, direction);
         return ResponseEntity.ok(response);
     }
+
+     /**
+     * Get all customers by search term with filtering and pagination options.
+     *
+     * @param page      Number of page (default: 0)
+     * @param size      Size of page (default: 10)
+     * @param sortBy    Sort field (default: firstName)
+     * @param direction direction of arrangement (ascending or descending, default: asc)
+     * @param searchTerm Search term (required: true)
+     * @return Page of filtered customer by search term
+     */
+    @Operation(summary = "Get all customers", description = "Get all customers with filtering and pagination options.")
+    @Parameters({
+            @Parameter(name = "page", description = "Number of page", example = "0"),
+            @Parameter(name = "size", description = "Size of page", example = "10"),
+            @Parameter(name = "sortBy", description = "Sort field", example = "firstName"),
+            @Parameter(name = "direction", description = "Direction of arrangement", example = "asc"),
+            @Parameter(name = "searchTerm", description = "Search term", example = "Janes")
+    })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Paginated list of clients by search term")
+    })
+    @GetMapping(value = {"/search"}) 
+    public ResponseEntity<PageResponse<CustomerDto>> getBySearchTerm(
+        @RequestParam(defaultValue = "0")int page,
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "firstName")List<String>sortBy,
+        @RequestParam(defaultValue = "asc")List<String> direction,
+        @RequestParam(required = true) String searchTerm) throws CustomException {
+    
+            if (sortBy.size() != direction.size()) {
+                throw new IllegalArgumentException("The size of orderBy and orderDirection must match");
+            }
+        
+            // Construir el objeto Sort con múltiples criterios y direcciones
+            Sort sort = Sort.by(
+                IntStream.range(0, sortBy.size())
+                    .mapToObj(i -> {
+                        String field = sortBy.get(i);
+                        String orderDirection = direction.get(i);
+                        return orderDirection.equalsIgnoreCase("desc") ? Sort.Order.desc(field) : Sort.Order.asc(field);
+                    })
+                    .toList()
+            );
+        
+            Pageable pageable = PageRequest.of(page, size, sort);
+            Page<CustomerDto> customersDtos = customerService.getSearchByTerm(searchTerm, pageable);
+    
+            PageResponse<CustomerDto> response = PageResponse.of(customersDtos, sortBy, direction);
+            return ResponseEntity.ok(response);
+        }
+    
+    
 
     @PostMapping(value = {""})
     public ResponseEntity<CustomerDto> create(@Valid @RequestBody CustomerDto customerRequest) throws CustomException {
