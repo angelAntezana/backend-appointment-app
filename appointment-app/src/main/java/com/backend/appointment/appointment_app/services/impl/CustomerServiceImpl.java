@@ -17,10 +17,14 @@ import com.backend.appointment.appointment_app.services.CustomerService;
 @Service
 public class CustomerServiceImpl implements CustomerService{
 
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+
+    private final CustomerMapper customerMapper;
     
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository,
+    CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
     @Override
@@ -33,24 +37,24 @@ public class CustomerServiceImpl implements CustomerService{
             CustomerMessageError.CUSTOMER_NOT_FOUND.getStatusCode()
             );
         }
-        return CustomerMapper.toDto(customer.get());
+        return customerMapper.toDto(customer.get());
     }
 
     @Override
     public Page<CustomerDto> getBySearchTerm(String searchTerm, Pageable pageable) {
         if (searchTerm == null || searchTerm.isEmpty()) {
             return customerRepository.findAll(pageable)
-                .map(CustomerMapper::toDto);
+                .map(customerMapper::toDto);
         }
 
         return customerRepository.findBySearchTerm(searchTerm, pageable)
-            .map(CustomerMapper::toDto);
+            .map(customerMapper::toDto);
     }
 
     @Override
     public Page<CustomerDto> getAll(Pageable pageable) throws CustomException {
          return customerRepository.findAll(pageable)
-         .map(CustomerMapper::toDto);
+         .map(customerMapper::toDto);
     }
 
     @Override
@@ -62,9 +66,9 @@ public class CustomerServiceImpl implements CustomerService{
             CustomerMessageError.EMAIL_ALREADY_EXISTS.getStatusCode()
             );
         }
-        Customer saveCustomer = CustomerMapper.toEntity(customerRequest);
+        Customer saveCustomer = customerMapper.toEntity(customerRequest);
         Customer savedCustomer = customerRepository.save(saveCustomer);
-        return CustomerMapper.toDto(savedCustomer);
+        return customerMapper.toDto(savedCustomer);
     }
 
     @Override
@@ -76,8 +80,8 @@ public class CustomerServiceImpl implements CustomerService{
                 CustomerMessageError.CUSTOMER_NOT_FOUND.getStatusCode()
                 );
         }
-        Customer updatedCustomer = CustomerMapper.toEntity(customerDto);
-        return CustomerMapper.toDto(customerRepository.save(updatedCustomer));
+        Customer updatedCustomer = customerMapper.toEntity(customerDto);
+        return customerMapper.toDto(customerRepository.save(updatedCustomer));
     }
 
     @Override

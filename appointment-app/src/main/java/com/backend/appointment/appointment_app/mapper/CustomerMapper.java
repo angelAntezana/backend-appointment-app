@@ -3,16 +3,15 @@ package com.backend.appointment.appointment_app.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.backend.appointment.appointment_app.dto.CustomerDto;
 import com.backend.appointment.appointment_app.entity.Customer;
 
+@Component
 public class CustomerMapper {
-    
-    private CustomerMapper() {
-        throw new IllegalStateException("Mapper customer class");
-    }
 
-    public static Customer toEntity(CustomerDto customerRequest) {
+    public Customer toEntity(CustomerDto customerRequest) {
         if (customerRequest == null) {
             return null;
         }
@@ -36,7 +35,7 @@ public class CustomerMapper {
         
     }
 
-    public static CustomerDto toDto(Customer customer) {
+    public CustomerDto toDto(Customer customer) {
         if (customer == null) {
             return null;
         }
@@ -53,7 +52,7 @@ public class CustomerMapper {
         .build();
     }
 
-    public static List<CustomerDto> toDtoList(List<Customer> listCustomer) {
+    public List<CustomerDto> toDtoList(List<Customer> listCustomer) {
         List<CustomerDto> listCustomerDtos = new ArrayList<>();
 
          for (Customer customer: listCustomer) {
