@@ -57,3 +57,88 @@ ALTER TABLE token MODIFY COLUMN token VARCHAR(512);
 --   "iat": 1733083410,
 --   "exp": 1733688210
 -- }
+
+
+
+
+
+
+--- ESQUE OK
+ CREATE TABLE `appointment` (
+  `appointment_id` bigint NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint DEFAULT NULL,
+  `duration` int DEFAULT NULL,
+  `employee_id` bigint DEFAULT NULL,
+  `init_date` datetime(6) DEFAULT NULL,
+  `end_date` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`appointment_id`),
+  KEY `FK8d468o9ib2yp7a2i75muy221i` (`customer_id`),
+  KEY `FKet3j9n9rcienfvvmaqfqqngaa` (`employee_id`),
+  CONSTRAINT `FK8d468o9ib2yp7a2i75muy221i` FOREIGN KEY (`customer_id`) REFERENCES `person` (`person_id`),
+  CONSTRAINT `FKet3j9n9rcienfvvmaqfqqngaa` FOREIGN KEY (`employee_id`) REFERENCES `person` (`person_id`)
+)
+
+CREATE TABLE `customer` (
+  `send_notification_email` bit(1) NOT NULL,
+  `send_notification_phone_number` bit(1) NOT NULL,
+  `customer_id` bigint NOT NULL,
+  PRIMARY KEY (`customer_id`),
+  CONSTRAINT `FKqw58igk7s2kunxvf7ns62ktu2` FOREIGN KEY (`customer_id`) REFERENCES `person` (`person_id`)
+) 
+
+CREATE TABLE `employee` (
+  `dni` varchar(255) DEFAULT NULL,
+  `employee_id` bigint NOT NULL,
+  PRIMARY KEY (`employee_id`),
+  CONSTRAINT `FKry8nv6j6upshdj0s6g0mrbsp1` FOREIGN KEY (`employee_id`) REFERENCES `person` (`person_id`)
+)
+
+CREATE TABLE `person` (
+  `dtype` varchar(31) NOT NULL,
+  `person_id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) DEFAULT NULL,
+  `first_last_name` varchar(255) DEFAULT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `phone_number` varchar(255) DEFAULT NULL,
+  `second_last_name` varchar(255) DEFAULT NULL,
+  `second_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`person_id`)
+)
+
+ CREATE TABLE `role` (
+  `role_id` bigint NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`role_id`)
+)
+
+CREATE TABLE `token` (
+  `token_id` bigint NOT NULL,
+  `is_expired` bit(1) NOT NULL,
+  `is_revoked` bit(1) NOT NULL,
+  `token` varchar(512) DEFAULT NULL,
+  `token_type` enum('BEARER') DEFAULT NULL,
+  `user_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`token_id`),
+  UNIQUE KEY `UKpddrhgwxnms2aceeku9s2ewy5` (`token`),
+  KEY `FKe32ek7ixanakfqsdaokm4q9y2` (`user_id`),
+  CONSTRAINT `FKe32ek7ixanakfqsdaokm4q9y2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+)
+
+CREATE TABLE `user` (
+  `user_id` bigint NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `UKob8kqyqqgmefl0aco34akdtpe` (`email`)
+)
+
+ CREATE TABLE `users_roles` (
+  `user_id` bigint NOT NULL,
+  `role_id` bigint NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
+  CONSTRAINT `FKgd3iendaoyh04b95ykqise6qh` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
+)
